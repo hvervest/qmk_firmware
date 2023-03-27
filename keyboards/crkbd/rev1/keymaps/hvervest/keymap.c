@@ -6,6 +6,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[2] = LAYOUT_split_3x5_3(KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO)
 };
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+  case KC_Q:
+    if (record->event.pressed) {
+      if (keyboard_report->mods & MOD_BIT(KC_LCMD) || keyboard_report->mods & MOD_BIT(KC_RCMD)){
+        register_code(KC_TAB);
+        return false;
+      }
+    } else {
+      if (keyboard_report->mods & MOD_BIT(KC_LCMD) || keyboard_report->mods & MOD_BIT(KC_RCMD)){
+        unregister_code(KC_TAB);
+        return false;
+      }
+    }
+    break;
+  }
+  return true;
+};
+
 #if defined(ENCODER_ENABLE) && defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 
